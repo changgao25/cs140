@@ -60,12 +60,11 @@ int main(int argc, char *argv[]) {
 ```
 ### Running the code for this project
 
-Running this code should be straightforward. In the drop-down 
-menu in the upper right-hand corner you should see a *Run
-Configuration* called `Helloworld | Debug`. Make sure this 
-configuration is selected and press the play button next to it.
-In the **Run** view below the code you should see the output 
-of running the program. It should look something like this:
+Running this code should be straightforward. In the drop-down menu in the upper
+right-hand corner you should see a *Run Configuration* called `HelloWorld`. Make
+sure this configuration is selected and press the play button next to it. In
+the **Run** view below the code you should see the output  of running the
+program. It should look something like this:
 
 ```bash
 /Users/username/githubusername/ex01-helloworld/cmake-build-debug/bin/HelloWorld
@@ -77,12 +76,12 @@ Success! Now you can move on to testing your code.
 
 ### Testing the code for this project
 
-Testing the code for this project is similar to running your code
-as outlined above. In the drop-down menu in the upper right-hand
-corner select the configuration `HelloWorld_Gtest` and press the 
-play button next to it. In the **Run** view below the code you should
-see the output of running these tests. It should look something
-like this:
+Testing the code for this project is similar to running your code as outlined
+above. In the drop-down menu in the upper right-hand corner select the
+configuration `helloworld_unittest` and press the play button next to it; you
+might have to press `All Configurations` to see it. In the **Run** view below
+the code you should see the output of running these tests. It should look
+something like this:
 
 ```bash
 Running main() from gtest_main.cc
