@@ -1,18 +1,44 @@
-# Minimum version can be no higher than 3.5 as Ubuntu package management uses this version.
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.22)
 
-project (EX01-HelloWorld)
+project(EX01-HelloWorld)
 
-set(SOURCE_PREFIX "helloworld")
 set(EXEC_NAME "HelloWorld")
-set(CMAKE_CXX_STANDARD 11)
+set(TEST_EXEC_NAME "helloworld_unittest")
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -pedantic")
 
-if(EXISTS ${CMAKE_HOME_DIRECTORY}/csv30-lib/CMakeLists.txt)
-    include(csv30-lib/CMakeLists.txt)
-    add_dependencies(${EXEC_NAME}_GTest ${EXEC_NAME})
-elseif(EXISTS /usr/local/csv30-lib/CMakeLists.txt)
-    include(/usr/local/csv30-lib/CMakeLists.txt)
-    add_dependencies(${EXEC_NAME}_GTest ${EXEC_NAME})
-else()
-    add_custom_target(add-submodules ALL git clone https://github.com/vc-csv30/csv30-lib.git)
-endif()
+add_executable(
+        ${EXEC_NAME}
+        src/main.cc
+)
+
+# from https://github.com/google/googletest/tree/main/googletest#incorporating-into-an-existing-cmake-project
+# and https://google.github.io/googletest/quickstart-cmake.html
+include(FetchContent)
+FetchContent_Declare(
+        googletest
+        # Specify the commit you depend on and update it regularly.
+        URL https://github.com/google/googletest/archive/5376968f6948923e2411081fd9372e71a59d8e77.zip
+)
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+
+enable_testing()
+
+add_executable(
+        ${TEST_EXEC_NAME}
+        src/${TEST_EXEC_NAME}.cc  # sort of a hack to have fewer things to change between projects.
+)
+add_dependencies(
+        ${TEST_EXEC_NAME}
+        ${EXEC_NAME}
+)
+target_link_libraries(
+        ${TEST_EXEC_NAME}
+        GTest::gtest_main
+)
+
+include(GoogleTest)
+gtest_discover_tests(${TEST_EXEC_NAME})
