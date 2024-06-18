@@ -1,0 +1,31 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Greet
+      id: greet
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Greet
+        setup-command: mkdir -p github_test && cd github_test && cmake .. && cmake
+          --build .
+        command: ctest --test-dir github_test -R HelloWorldTest.Greet
+        timeout: 10
+        max-score: 20
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        GREET_RESULTS: "${{steps.greet.outputs.result}}"
+      with:
+        runners: greet
