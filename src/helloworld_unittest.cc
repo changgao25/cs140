@@ -44,8 +44,6 @@ namespace {
 
 // Tests edu::sbcc:cs140::HelloWorld::greetWorld().
 
-using namespace ::testing_internal;
-
 class HelloWorldTest : public ::testing::Test {
 protected:
     static const uint64_t MAX_TESTED_SCORE = 20;
@@ -75,11 +73,7 @@ protected:
 
 uint64_t HelloWorldTest::_testScore = 0;
 
-// Tests returned string of greetWorld().
-TEST_F(HelloWorldTest, Positive) {
-  // This test is named "Positive", and belongs to the "HelloWorld"
-  // test case.
-
+TEST_F(HelloWorldTest, Greet) {
 #ifdef WIN32
   std::system("HelloWorld > ./test.txt");
 #else 
